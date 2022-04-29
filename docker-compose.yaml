@@ -2,13 +2,15 @@ version: '3'
 
 services:
   laravel:
-    image: leonardoestevam/fullcycle_docker_exercicio_1:2.0
+    build: 
+      context: ./laravel
     container_name: laravel
     networks: 
       - laranet
 
   nginx:
-    image: leonardoestevam/fullcycle_docker_exercicio_1_nginx:1.0
+    build: 
+      context: ./nginx
     container_name: nginx
     networks: 
       - laranet
