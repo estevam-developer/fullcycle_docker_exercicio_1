@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  laravel:
+    image: leonardoestevam/fullcycle_docker_exercicio_1:2.0
+    container_name: laravel
+    networks: 
+      - laranet
+
+  nginx:
+    image: leonardoestevam/fullcycle_docker_exercicio_1_nginx:1.0
+    container_name: nginx
+    networks: 
+      - laranet
+    ports: 
+      - "80:80"
+
+networks:
+  laranet:
+    driver: bridge
