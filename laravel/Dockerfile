@@ -1,4 +1,4 @@
-FROM php:7.4-cli
+FROM php:7.4-cli as builder
 
 WORKDIR /var/www
 
@@ -12,8 +12,16 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 RUN php composer.phar create-project --prefer-dist laravel/laravel laravel
 
-ENTRYPOINT [ "php","laravel/artisan","serve" ]
+FROM php:7.4-fpm-alpine
 
-CMD [ "--host=0.0.0.0" ]
+WORKDIR /var/www
 
+RUN rm -rf /var/www/html/
 
+COPY --from=builder /var/www/laravel .
+
+RUN chown -R www-data:www-data /var/www
+
+RUN ln -s public html
+
+CMD [ "php-fpm" ]
